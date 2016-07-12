@@ -1,3 +1,9 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +11,101 @@ body {
 
 a {
   color: #00B7FF;
+}
+img{
+	width: 50px;
+}
+
+.games{
+	width: 410px;
+	color: #fff;
+}
+.games ul li{
+	height: 25px;
+	list-style-type: none;
+	background-color: #27242F;
+}
+.games ul li:nth-child(2n+1){
+	background-color: #312F3C;
+}
+
+.games ul li span.user{
+    margin-right: 90px;
+    text-transform: capitalize;
+    color: #F31549;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+.coinSideTails,
+.coinSideHeads{
+	position: relative;
+	top: 2px;
+	line-height: 25px;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.coinSideTails{
+	background: url('../img/tails.png');
+	-webkit-background-size: 16px;
+	background-size: 16px;
+}
+.coinSideHeads{
+	background: url('../img/heads.png');
+	-webkit-background-size: 16px;
+	background-size: 16px;
+}
+span.inprogress,
+span.join{
+    color: #F31549;
+    text-transform: capitalize;
+    text-align: center;
+    width: 100px;
+    display: inline-block;
+}
+span.inprogress{
+	color: #76757A;
+}
+span.bet{
+	color: #F31549;
+	text-align: right;
+	display: inline-block;
+	width: 100px;
+}
+
+
+
+input.coinSideChoise.heads:checked,
+input.coinSideChoise.tails:checked{
+	outline: none;
+	border:2px solid #F31549;
+	border-radius: 5px;
+}
+
+
+.coinSideChoise.heads,
+.coinSideChoise.tails{
+	cursor: pointer;
+	outline: none;
+	margin: 20px 10px;
+	width: 40px;
+	height: 40px;
+	padding:  25px;
+	background: url('../img/heads.png') no-repeat center center;
+	-webkit-background-size:  40px;
+	background-size:  40px;
+	border:none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	border:2px solid transparent;
+}
+.coinSideChoise.tails{
+	background: url('../img/tails.png') no-repeat center center;
+	-webkit-background-size:  40px;
+	background-size:  40px;
 }

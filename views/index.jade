@@ -6,6 +6,12 @@ block content
       a(href="/login") Login
       br
       a(href="/register") Register
+      script.
+        localStorage.clear()
     if (user)
-      p You are currently logged in as #{user.username}
+      img(src="#{user.img}")
+      p You are currently logged in as #{user.username} your balance #{user.balance}$
+      a(href="/coinflip") coinflip  
       a(href="/logout") Logout
+
+

@@ -10,10 +10,18 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
+var CoinFlip = require('./models/coinFlip');
+
+
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+server.listen(3000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes);
+app.use('/coinflip', routes);
 
 // passport config
 var Account = require('./models/account');
@@ -45,7 +54,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
+mongoose.connect('mongodb://localhost/elotty');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -67,6 +76,38 @@ if (app.get('env') === 'development') {
         });
     });
 }
+
+
+// SOCKET IO
+
+
+io.on('connection', function(socket){
+    socket.on('active games', function(data){
+        CoinFlip.create({ 
+            user1: data.user,
+            bet: data.bet,
+            user1CoinSide:data.coinSide }, function (err, small) {
+                if (err) return handleError(err);
+                CoinFlip.find({}, function(err, coinflip) {
+                    var coinFlipRooms = {};
+
+                coinflip.forEach(function(user) {
+                    coinFlipRooms[coinflip._id] = coinflip;
+                });
+                io.emit('active games', coinFlipRooms);
+            });
+        })            
+    });
+    socket.on('room', function(room) {
+        console.log('room ',room)
+        socket.join(room);
+    });
+})
+// SOCKET IO FINISH
+
+
+
+
 
 // production error handler
 // no stacktraces leaked to user

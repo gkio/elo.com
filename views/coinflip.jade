@@ -1,0 +1,77 @@
+extends layout
+
+block content
+    h1 hello #{user}
+    button(type="button") create game
+
+    .createGame
+        .form-group
+            input.form-control(type='text',onkeypress='return event.charCode >= 48 && event.charCode <= 57', name="bet", class="bet", placeholder='Enter bet')
+        .form-group
+          input.coinSideChoise.heads(type='radio', name="coinSide", value="heads", class="coinSide")
+          input.coinSideChoise.tails(type='radio', name="coinSide", value="tails", class="coinSide")
+          button.btn.btn-default(type='submit') Submit
+          button.room(type='submit') Join room
+        &nbsp;
+        a(href='/')
+            button.btn.btn-primary(type="button") Cancel
+    .games
+        ul 
+            if(rooms !== undefined)
+                each room in rooms
+                    li 
+                        span.user #{room.user1}
+                        if(room.user1CoinSide === "heads")
+                            span.coinSideHeads
+                        else
+                            span.coinSideTails
+                        span.join Joinable
+                        if(room.user1CoinSide === "heads")
+                            span.coinSideTails
+                        else
+                            span.coinSideHeads
+                        span.bet #{room.bet}$
+
+    script.
+
+            $('.room').on('click',function(){
+                // Connected, let's sign-up for to receive messages for this room
+                    socket.emit('room', 'abc123');
+            });
+            $('.btn-default').click(function(){
+                var user = "#{user.username}"
+                var bet = $('.bet').val()
+                var coinSide = $('.coinSideChoise:checked').val()
+                console.log('bet ',bet)
+                console.log('coinSide ',coinSide)
+                socket.emit('active games', {
+                    user: user,
+                    bet: bet,
+                    coinSide: coinSide
+                });
+                $('body').append('<h1 class="gameadded">game added</h1>')
+                setTimeout(function(){
+                    $('.gameadded').fadeOut()
+                },2000)
+                return false;
+            });
+            socket.on('active games', function(rooms){
+                var userCreatedRoom = rooms.undefined[rooms.undefined.length - 1].user1 
+                var bet = rooms.undefined[rooms.undefined.length - 1].bet 
+                if(rooms.undefined[rooms.undefined.length - 1].user1CoinSide === "heads"){
+                    var user1coinSide = "coinSideHeads"
+                    var user2coinSide = "coinSideTails"
+                }else{
+                    var user1coinSide = "coinSideTails"
+                    var user2coinSide = "coinSideHeads"
+                }
+                $('.games ul').prepend(`
+                        <li>
+                        <span class="user">`+userCreatedRoom+`</span>
+                        <span class="`+user1coinSide+`"></span>
+                        <span class="join">Joinable</span>
+                        <span class="`+user2coinSide+`"></span>
+                        <span class="bet">`+bet+`$</span>
+                        </li>
+                        `)
+            });
