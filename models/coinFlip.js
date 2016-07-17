@@ -8,7 +8,16 @@ var CoinFlip = new Schema({
       default: shortid.generate
     },
     "user1" : String,
-    "user2" : String,
+    "user1Img" : String,
+    "user2" : {
+    	type: String,
+    	default: 'enemy not found'
+    },
+    "full": {
+    	type: Boolean,
+    	default: false
+    },
+    "user2Img" : String,
     "bet" : Number,
     "user1CoinSide" : String,
     "user2CoinSide" : String  

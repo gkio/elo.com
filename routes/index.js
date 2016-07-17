@@ -79,17 +79,32 @@ router.get('/logout', function(req, res, next) {
 });
 
 
-router.get('/room/:id',function(req,res){
-    res.render('room')
+router.get('/room/:id',loggedIn,function(req,res){
+    res.locals.path = req.path
+    CoinFlip.find({'roomId': req.path.substring(6)}, function(err, coinflip) {
+        if(coinflip.length === 0){
+            console.log('errrr')
+            res.render('404');
+        }else{
+
+                creatorUser = coinflip[0].user1;
+                creatorBet = coinflip[0].bet;
+                creatorImg = coinflip[0].user1Img;
+                full = coinflip[0].full;
+                res.render('room',{full:full,creatorUser: creatorUser,creatorImg: creatorImg,user:req.user})
+        }
+    })
 })
 
 router.get('/coinflip',loggedIn,function(req, res){
     var coinFlipRooms = {};
+    var website = req.protocol + '://' + req.get('host')
+    var room = req.protocol + '://' + req.get('host') + '/room/'
     CoinFlip.find({}, function(err, coinflip) {
         coinflip.forEach(function(user) {
             coinFlipRooms[coinflip._id] = coinflip;
         });
-    res.render('coinflip',{rooms: coinFlipRooms.undefined,user: req.user})
+    res.render('coinflip',{roomUrls: room, rooms: coinFlipRooms.undefined,user: req.user})
     });
 })
 

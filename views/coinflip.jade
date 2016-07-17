@@ -1,45 +1,48 @@
 extends layout
 
 block content
-    h1 hello #{user}
-    button(type="button") create game
-
-    .createGame
-        .form-group
-            input.form-control(type='text',onkeypress='return event.charCode >= 48 && event.charCode <= 57', name="bet", class="bet", placeholder='Enter bet')
-        .form-group
-          input.coinSideChoise.heads(type='radio', name="coinSide", value="heads", class="coinSide")
-          input.coinSideChoise.tails(type='radio', name="coinSide", value="tails", class="coinSide")
-          button.btn.btn-default(type='submit') Submit
-          button.room(type='submit') Join room
-        &nbsp;
-        a(href='/')
-            button.btn.btn-primary(type="button") Cancel
-    .games
-        ul 
-            if(rooms !== undefined)
-                each room in rooms
-                    li 
-                        span.user #{room.user1}
-                        if(room.user1CoinSide === "heads")
-                            span.coinSideHeads
-                        else
-                            span.coinSideTails
-                        span.join Joinable
-                        if(room.user1CoinSide === "heads")
-                            span.coinSideTails
-                        else
-                            span.coinSideHeads
-                        span.bet #{room.bet}$
+    .cont
+        .game
+            .head.clearfix
+                h1 Coin Flip
+                .balance
+                    span.balanceText Your Balance
+                    span.userBalance #{user.balance}$
+                ul.game_actions
+                    li.how_to ?
+                    li.create_room +
+                .createGame(style="display:none")
+                    .form-group
+                        input.form-control(type='text',onkeypress='return event.charCode >= 48 && event.charCode <= 57', name="bet", class="bet", placeholder='Enter bet')
+                    .form-group
+                      input.coinSideChoise.heads(type='radio', name="coinSide", value="heads", class="coinSide")
+                      input.coinSideChoise.tails(type='radio', name="coinSide", value="tails", class="coinSide")
+                      button.btn.btn-default(type='submit') Submit
+            .game_list
+                ul
+                    if(rooms !== undefined)
+                        each room in rooms
+                            li.clearfix(id="#{room.roomId}")
+                                .user_created
+                                    img(src="#{room.user1Img}")
+                                    if(room.user1CoinSide === "heads")
+                                        span.user.heads #{room.user1}
+                                    else
+                                        span.user.tails #{room.user1}
+                                - var roomUrl = roomUrls + room.roomId
+                                if(room.full)
+                                    a(href="javascript:;").joinRoom.unactive inprogress
+                                else
+                                    a(href=roomUrl).joinRoom.active joinable
+                                .coinsAdded #{room.bet}$
 
     script.
-
-            $('.room').on('click',function(){
-                // Connected, let's sign-up for to receive messages for this room
-                    socket.emit('room', 'abc123');
-            });
+            $('.create_room').click(function(){
+                $('.createGame').show()
+            })
             $('.btn-default').click(function(){
                 var user = "#{user.username}"
+                var userImg = "#{user.img}"
                 var bet = $('.bet').val()
                 var coinSide = $('.coinSideChoise:checked').val()
                 console.log('bet ',bet)
@@ -47,7 +50,8 @@ block content
                 socket.emit('active games', {
                     user: user,
                     bet: bet,
-                    coinSide: coinSide
+                    coinSide: coinSide,
+                    userImg: userImg
                 });
                 $('body').append('<h1 class="gameadded">game added</h1>')
                 setTimeout(function(){
@@ -55,23 +59,36 @@ block content
                 },2000)
                 return false;
             });
+            socket.on('disconnect',function(){
+            console.log('user has disconectedq')
+            })
+            socket.on('available room', function(data){
+            console.log('дата',data)
+                $('#'+data+' .joinRoom').removeClass('active').addClass('unactive').text('inprogress').attr("href","javascript:;")
+            })
             socket.on('active games', function(rooms){
+            if("#{user.username}" == rooms.undefined[rooms.undefined.length - 1].user1){
+                
+            window.location.assign('/room/' + rooms.undefined[rooms.undefined.length - 1].roomId)
+            }
                 var userCreatedRoom = rooms.undefined[rooms.undefined.length - 1].user1 
+                var roomId = rooms.undefined[rooms.undefined.length - 1].roomId 
+                var userCreatedRoomImg = rooms.undefined[rooms.undefined.length - 1].user1Img
                 var bet = rooms.undefined[rooms.undefined.length - 1].bet 
                 if(rooms.undefined[rooms.undefined.length - 1].user1CoinSide === "heads"){
-                    var user1coinSide = "coinSideHeads"
-                    var user2coinSide = "coinSideTails"
+                    var user1coinSide = "heads"
                 }else{
-                    var user1coinSide = "coinSideTails"
-                    var user2coinSide = "coinSideHeads"
+                    var user1coinSide = "tails"
                 }
-                $('.games ul').prepend(`
-                        <li>
-                        <span class="user">`+userCreatedRoom+`</span>
-                        <span class="`+user1coinSide+`"></span>
-                        <span class="join">Joinable</span>
-                        <span class="`+user2coinSide+`"></span>
-                        <span class="bet">`+bet+`$</span>
+
+                $('.game_list ul').prepend(`
+                        <li class="clearfix" id="`+roomId+`">
+                        <div class="user_created">
+                            <img src="`+userCreatedRoomImg+`">
+                            <span class="user `+user1coinSide+`">`+userCreatedRoom+`</span>
+                        </div>
+                        <div class="joinRoom active"><a href="`+'http://'+window.location.hostname+':'+window.location.port+'/room/'+roomId+`">Joinable</a></div>
+                        <div class="coinsAdded">`+bet+`$</div>
                         </li>
                         `)
             });

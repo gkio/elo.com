@@ -1,4 +1,30 @@
 extends layout
 
 block content
-	h1 hello
+    if (full === true)
+        .roomfull_screen
+            a(href="/coinflip") go back to homepage
+    else
+        .left-side(style="float:left;height:200px;background: pink; width:200px")
+            img(style="width:50px" src="#{creatorImg}")
+            span #{creatorUser}
+        script.
+            $(document).ready(function(){
+                var roomId = window.location.pathname.substring(6)
+                socket.emit('room', {roomId: roomId,
+                                    userName: "#{user.username}",
+                                    userImg: "#{user.img}"});
+            })
+            var roomId = window.location.pathname.substring(6)
+            $(window).on('beforeunload', function(){
+                socket.emit('user left room',{user: "#{user.username}", room:roomId})
+            });
+            socket.on('new user', function(data) {
+            console.log('new data',data)
+                $('body').append(`
+                    <div class="`+data.side+`" style="float:`+data.float+`;height: 200px; background: pink; width: 200px;">
+                    <img style="width:50px" src="`+data.newUserImg+`">
+                    <span> `+data.newUser+`</span>
+                    </div>
+                    `);
+            });

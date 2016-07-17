@@ -5,7 +5,6 @@
 }
 
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -15,97 +14,251 @@ a {
 img{
 	width: 50px;
 }
-
-.games{
-	width: 410px;
-	color: #fff;
-}
-.games ul li{
-	height: 25px;
-	list-style-type: none;
-	background-color: #27242F;
-}
-.games ul li:nth-child(2n+1){
-	background-color: #312F3C;
+.cont{
+	background-color: #27252f;
+	height: 100vh;
+	margin-left: 270px;
 }
 
-.games ul li span.user{
-    margin-right: 90px;
-    text-transform: capitalize;
-    color: #F31549;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 25px;
+.clearfix:after{
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
 }
-
-.coinSideTails,
-.coinSideHeads{
+.game{
 	position: relative;
-	top: 2px;
-	line-height: 25px;
-	width: 16px;
-	height: 16px;
+	width: 710px;
+    top: 35%;
+    left: 35%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+.game .head{
+	width: inherit;
+	height: 60px;
+}
+
+.game .head h1{
+	float: left;
+	display: inline-block;
+	font-size: 24px;
+	font-weight: bold;
+	color: #fb2241;
+	padding-bottom: 10px;
+	border-bottom: 4px solid #fb2241;
+	text-align: center;
+}
+
+.game .head .balance{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	display: inline-block;
+	min-width:120px;
+	max-width: 140px;
+}
+
+.game .head span.userBalance{
+	text-align: center;
+	display: block;
+	font-size: 18px;
+	text-align: center;
+	font-weight: bold;
+	color: #fb2241;
+}
+
+.game .head span.balanceText{
+	text-align: center;
+	display: block;
+	font-size: 18px;
+	color: #77767b;
+	height: 20px;
+}
+
+ul.game_actions{
+	margin: 10px 0;
+	float: right;
 	display: inline-block;
 }
 
-.coinSideTails{
-	background: url('../img/tails.png');
-	-webkit-background-size: 16px;
-	background-size: 16px;
-}
-.coinSideHeads{
-	background: url('../img/heads.png');
-	-webkit-background-size: 16px;
-	background-size: 16px;
-}
-span.inprogress,
-span.join{
-    color: #F31549;
-    text-transform: capitalize;
-    text-align: center;
-    width: 100px;
-    display: inline-block;
-}
-span.inprogress{
-	color: #76757A;
-}
-span.bet{
-	color: #F31549;
-	text-align: right;
-	display: inline-block;
-	width: 100px;
-}
-
-
-
-input.coinSideChoise.heads:checked,
-input.coinSideChoise.tails:checked{
-	outline: none;
-	border:2px solid #F31549;
-	border-radius: 5px;
-}
-
-
-.coinSideChoise.heads,
-.coinSideChoise.tails{
+ul.game_actions li{
 	cursor: pointer;
-	outline: none;
-	margin: 20px 10px;
-	width: 40px;
-	height: 40px;
-	padding:  25px;
-	background: url('../img/heads.png') no-repeat center center;
-	-webkit-background-size:  40px;
-	background-size:  40px;
-	border:none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	-o-appearance: none;
-	appearance: none;
-	border:2px solid transparent;
+	margin: 0 10px;
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 25px;
+	text-align: center;
 }
-.coinSideChoise.tails{
-	background: url('../img/tails.png') no-repeat center center;
-	-webkit-background-size:  40px;
-	background-size:  40px;
+
+ul.game_actions li.how_to{
+	background-color: #322f3c;
+}
+ul.game_actions li.create_room{
+	background-color: #fb2241;
+}
+
+.game_list{
+	width: inherit;
+	height: auto;
+}
+.game_list ul li{
+	list-style-type: none;
+	position: relative;
+	background-color: #23212b;
+	height: 45px;
+}
+
+.game_list ul li:nth-child(2n+1){
+	background-color: #26242f;
+}
+.game_list ul li div{
+	display: inline-block;
+}
+
+.game_list ul li .user_created{
+	float: left;
+}
+
+.game_list ul li .user_created img{
+	border-radius: 5px;
+	position: relative;
+	top: 5px;
+	left: 5px;
+	width: 30px;
+}
+
+.game_list ul li .coinsAdded{
+	float: right;
+	margin-right: 10px;
+	color: #fb2241;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 42px;
+}
+
+.game_list ul li .user_created span.user{
+	font-size: 18px;
+	position: relative;
+	color: #fb2241;
+	font-weight: bold;
+	top: -3px;
+    margin-left: 10px;
+}
+
+.game_list ul li .user_created span.user.heads:after{
+	position: absolute;
+	top: 2px;
+	right: -25px;
+	content: '';
+	width: 18px;
+	height: 18px;
+	background: url('../img/heads.png') no-repeat;
+	-webkit-background-size: 18px;
+	background-size: 18px;
+}
+
+.game_list ul li .user_created span.user.tails:after{
+	position: absolute;
+	top: 2px;
+	right: -25px;
+	content: '';
+	width: 18px;
+	height: 18px;
+	background: url('../img/tails.png') no-repeat;
+	-webkit-background-size: 18px;
+	background-size: 18px;
+}
+
+.game_list ul li .joinRoom.unactive,
+.game_list ul li .joinRoom.active{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	text-transform: capitalize;
+	text-decoration: none;
+	color: #fb2241;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 42px;
+}
+.game_list ul li .joinRoom.unactive{
+	color: #ccc;
+	cursor: default;
+}
+
+
+.fourzerofour{
+	height: 100vh;
+	width: 100%;
+  background: url('../img/404_screen.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.fourzerofour a{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	width: 270px;
+	height: 50px;
+	background-color: #fb2241;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: bold; 
+	font-size: 18px;
+	box-shadow: 0 0 10px rgba(251, 34, 65, 0.5);
+	text-align: center;
+	border-radius: 5px;
+	line-height: 50px;
+	text-decoration: none;
+	bottom: 15%;
+	transition: all .2s linear;
+}
+.fourzerofour a:active{
+	box-shadow: none;
+}
+.fourzerofour a:hover{
+	background-color: rgba(251, 34, 65, 0.8);
+}
+
+.roomfull_screen{
+	height: 100vh;
+	width: 100%;
+  background: url('../img/fullroom_screen.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.roomfull_screen a{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	width: 270px;
+	height: 50px;
+	background-color: #fb2241;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: bold; 
+	font-size: 18px;
+	box-shadow: 0 0 10px rgba(251, 34, 65, 0.5);
+	text-align: center;
+	border-radius: 5px;
+	line-height: 50px;
+	text-decoration: none;
+	bottom: 15%;
+	transition: all .2s linear;
+}
+.roomfull_screen a:active{
+	box-shadow: none;
+}
+.roomfull_screen a:hover{
+	background-color: rgba(251, 34, 65, 0.8);
 }
