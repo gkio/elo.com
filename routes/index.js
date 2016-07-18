@@ -20,6 +20,8 @@ function loggedIn(req, res, next) {
 
 
 router.get('/', function (req, res) {
+     var sid = req.sessionID
+     console.log('sid ', sid)
     res.render('index', { user : req.user });
 });
 
