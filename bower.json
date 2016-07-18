@@ -1,0 +1,21 @@
+{
+  "name": "Elloty",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Gkio"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "gentelella": "^1.3.0"
+  }
+}

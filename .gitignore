@@ -9,3 +9,4 @@ node_modules
 npm-debug.log
 public/min-css/*.css
 public/css/*.css
+bower_components
