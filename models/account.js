@@ -21,9 +21,9 @@ var Account = new Schema({
    		type: Boolean,
    		default: false
    	},
-    searching: {
-      type: Boolean,
-      default: false
+    role:{
+      type: String,
+      default: 'user'
     }
 });
 

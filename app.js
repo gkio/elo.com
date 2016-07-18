@@ -10,7 +10,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
+var Account = require('./models/account');
 var CoinFlip = require('./models/coinFlip');
+var Chat = require('./models/chat');
 
 
 
@@ -79,9 +81,38 @@ if (app.get('env') === 'development') {
 
 // SOCKET IO
 
-
+var usersConnected = 0;
 io.on('connection', function(socket){
+    usersConnected +=1;
+    io.emit('user online',usersConnected)
+    
+    socket.on('disconnect', function () {
+        usersConnected -=1;
+        io.emit('user online',usersConnected);
+    });
+    socket.on('chat',function(data){
+        console.log('chat data', data)
+        Chat.create({
+            text: data.text,
+            img: data.img,
+            time: data.time,
+            user: data.user},function(err, small){
+                if (err) return handleError(err);
+                Chat.find({},function(err, chat){
+                    var chatMessages = {};
+
+                chat.forEach(function(user){
+                    chatMessages[chat._id] = chat;
+                });
+                io.emit('chat', chatMessages);
+                })
+            })
+        })
     socket.on('active games', function(data){
+        Account.findOne({username: data.user},function(err,account){
+            account.balance -= data.bet;
+            account.save();
+        })            
         CoinFlip.create({ 
             user1: data.user,
             bet: data.bet,

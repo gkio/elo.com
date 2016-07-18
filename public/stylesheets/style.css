@@ -1,4 +1,4 @@
-*{
+/**{
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
@@ -261,4 +261,146 @@ ul.game_actions li.create_room{
 }
 .roomfull_screen a:hover{
 	background-color: rgba(251, 34, 65, 0.8);
+}*/
+
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
+
+body{
+	font-family: 'Open Sans', sans-serif;
+	background: #27242f;
+}
+
+.left-content{
+	width: 300px;
+	height:  100%;
+	background-color: #201e27;
+	position: fixed;
+}
+.left-content .elloty{
+	height:  132px;
+	width: inherit;
+	border-bottom: 2px solid #27252f;
+}
+.elloty h1{
+	font-size: 36px;
+	text-align: center;
+	line-height: 132px;
+	color: #fff;
+	text-transform: uppercase;
+}
+.elloty h1 span{
+	color: #fb2241;
+}
+
+.chat{
+	height: 100%;
+	width: 300px;
+	position: relative;
+}
+
+.chat:before{
+	content: '';
+	position: absolute;
+	z-index: 111;
+	width: inherit;
+	height: 100px;
+	background: linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,0));
+}
+
+
+
+.chat input.chatInput{
+	width: inherit;
+	height: 62px;
+	border: none;
+	position: relative;
+	z-index: 99999;
+	bottom: 0;
+	font-size: 16px;
+	border-top: 2px solid #27252f;
+	background: none;
+	padding: 0 20px;
+	outline: none;
+	color: #ccc;
+	font-weight: 400;
+}
+
+.chat input.chatInput::-webkit-input-placeholder {
+    color: #5e5d64;
+}
+.chat input.chatInput:-moz-placeholder { 
+   color: #5e5d64;
+}
+.chat input.chatInput::-moz-placeholder {
+   color: #5e5d64;
+}
+.chat input.chatInput:-ms-input-placeholder {
+   color: #5e5d64;
+}
+
+.chat .messages ul {
+	height: calc(100vh - 194px);
+	overflow-y: hidden;
+	bottom: 62px;
+}
+
+.chat .messages ul:hover{
+	overflow-y: scroll;
+}
+
+.chat .messages ul li {
+	position: relative;
+	margin: 10px 20px;
+	list-style-type: none;
+}
+
+.chat .messages span.username{
+	text-transform: capitalize;
+	font-size: 14px;
+	color: #5e5d64;
+	font-weight: 500;
+	top: -15px;
+}
+
+.chat .messages img{
+	width: 30px;
+	position: absolute;
+	top: 0;
+	display: inline-block;
+	border-radius: 3px;
+}
+.chat .messages ul li .msg{
+	margin-left: 10px;
+	position: relative;
+	top: -2px;
+	left: 30px;
+	display: inline-block;
+	width: 215px;
+}
+
+
+.chat .messages ul li .msg .time{
+	float: right;
+	color: #5e5d64;
+	font-size: 14px;
+}
+
+.chat .messages ul li .msg .text{
+	font-size: 14px;
+	font-weight: 400;
+	color: #fff;
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	if(user.role !== 'admin')
+		.fourzerofour
+			a(href="/coinflip") go back to homepage
+	else
+		h1 users online    
+		span.usersOnline 0
+		script.
+			socket.on('user online',function(users){
+			$('.usersOnline').text(users)
+			})

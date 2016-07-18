@@ -3,6 +3,7 @@ var app = express()
 var passport = require('passport');
 var Account = require('../models/account');
 var CoinFlip = require('../models/coinFlip');
+var Chat = require('../models/chat');
 var router = express.Router();
 
 var server = require('http').Server(app);
@@ -96,7 +97,18 @@ router.get('/room/:id',loggedIn,function(req,res){
     })
 })
 
+router.get('/admin',loggedIn,function(req, res){
+    res.render('admin',{user: req.user})
+})
+
+
 router.get('/coinflip',loggedIn,function(req, res){
+    var chatMessages = {};
+    Chat.find({}, function(err, chat) {
+        chat.forEach(function(user) {
+            chatMessages[chat._id] = chat;
+        })
+    })
     var coinFlipRooms = {};
     var website = req.protocol + '://' + req.get('host')
     var room = req.protocol + '://' + req.get('host') + '/room/'
@@ -104,7 +116,7 @@ router.get('/coinflip',loggedIn,function(req, res){
         coinflip.forEach(function(user) {
             coinFlipRooms[coinflip._id] = coinflip;
         });
-    res.render('coinflip',{roomUrls: room, rooms: coinFlipRooms.undefined,user: req.user})
+    res.render('coinflip',{roomUrls: room, rooms: coinFlipRooms.undefined, chat:chatMessages.undefined,user: req.user})
     });
 })
 
