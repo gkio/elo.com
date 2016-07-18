@@ -7,3 +7,5 @@
 node_modules
 *.out
 npm-debug.log
+public/min-css/*.css
+public/css/*.css
